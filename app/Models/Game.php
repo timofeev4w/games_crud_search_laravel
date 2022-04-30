@@ -41,4 +41,19 @@ class Game extends Model
     {
         return $this->belongsToMany(Genre::class);
     }
+
+    static function getGamesByGenre($genre_name)
+    {
+        $genre = Genre::where('name', $genre_name)->first();
+        $games_genre = GameGenre::where('genre_id', $genre->id)
+            ->get();
+        foreach ($games_genre as $game_genre) {
+            $game_ids[] = $game_genre['game_id'];
+        }
+        if (isset($game_ids)) {
+            return Game::whereIn('id', $game_ids)
+            ->get();
+        }
+        
+    }
 }

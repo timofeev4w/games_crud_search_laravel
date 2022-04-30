@@ -9,6 +9,10 @@ class Genre extends Model
 {
     use HasFactory;
 
+    protected $table = 'genres';
+
+    protected $primary_key = 'id';
+
     protected $fillable = ['name'];
 
     public $timestamps = false;

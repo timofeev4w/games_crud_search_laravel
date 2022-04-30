@@ -5,18 +5,18 @@
         <div class="row pt-5 pb-4">
             <div class="d-flex justify-content-center">
                 <h1>
-                    Search <a href="/games" class="text-decoration-none ">Game</a> 
+                    {{ $genre_name }} <a href="/games" class="text-decoration-none ">Game</a> 
                 </h1>
             </div>
         </div>
         <div class="row">
             <div class="d-flex justify-content-center">
                 <form action="/games/s" method="POST">
-                @csrf
+                    @csrf
                     <label for="genre_name" class="form-label">Search genre</label>
                     <input class="form-control" list="datalistOptions" id="genre_name" name="genre_name" placeholder="Type to search...">
                     <datalist id="datalistOptions">
-                        @foreach($genres as $genre)
+                        @foreach($genres_all as $genre)
                             <option value="{{ $genre->name }}">
                         @endforeach
                     </datalist>
@@ -49,14 +49,11 @@
                             </td>
                             <td>
                                 <a href="/games/{{ $game->id }}/edit" class="btn btn-success btn-sm mb-1">Update</a><br>
-                                {{-- <a href="games/{{ $game->id }}" class="text-danger">Delete</a> --}}
                                 <form action="/games/{{ $game->id }}" method="POST">
                                     @csrf
                                     @method('delete')
                                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                 </form>
-                                {{-- <a class="btn btn-success" href="/create" role="button">Изменить</a><br>
-                                <a class="btn btn-danger" href="/create" role="button">Удалить</a> --}}
                             </td>
                         </tr>
                     @empty
@@ -64,11 +61,6 @@
                     @endforelse
                 </tbody>
             </table>
-        </div>
-        <div class="row">
-            <div>
-                <a class="btn btn-primary" href="/games/create" role="button">+ Add game</a>
-            </div>
         </div>
     </div>
 @endsection

@@ -5,11 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\GameCreatePostRequest;
 use App\Http\Requests\GameUpdatePostRequest;
 use App\Models\Game;
-use App\Models\GameGenre;
 use App\Models\GameStudio;
 use App\Models\Genre;
 use Illuminate\Http\Request;
-// use App\
 
 class GamesController extends Controller
 {
@@ -21,9 +19,36 @@ class GamesController extends Controller
     public function index()
     {
         $games = Game::all();
+        $genres = Genre::all();
         
         return view('games.index', [
-            'games' => $games
+            'games' => $games,
+            'genres' => $genres
+        ]);
+    }
+
+    /**
+     * Redirect to Route::get('search').
+     *
+     */
+    public function searchRedirect(Request $request)
+    {
+        return redirect('/games/search/'.$request->input('genre_name'));
+    }
+
+    /**
+     * Display a games with genre.
+     *
+     */
+    public function search($genre_name = null)
+    {
+        $genres_all = Genre::all();
+        $games = Game::getGamesByGenre($genre_name);
+
+        return view('games.search',[
+            'genre_name' => $genre_name,
+            'games' => $games,
+            'genres_all' => $genres_all
         ]);
     }
 
@@ -60,7 +85,7 @@ class GamesController extends Controller
         ]);
 
         // Find or create genre and save in table game_genre
-        $genres = Genre::findGenreOrCreate($request->input('genre'), $game->id);
+        Genre::findGenreOrCreate($request->input('genre'), $game->id);
 
         return redirect('/games');
     }
@@ -109,14 +134,13 @@ class GamesController extends Controller
             ]);
         
         // Create game
-        $game = Game::where('id', $id)->update([
+        Game::where('id', $id)->update([
             'name' => $request->input('name'),
             'studio_id' => $studio->id
         ]);
-        // dd($game);
 
         // Find or create genre and save in table game_genre
-        $genres = Genre::genreUpdateOrCreate($request->input('genre'), $id);
+        Genre::genreUpdateOrCreate($request->input('genre'), $id);
 
         return redirect('/games');
     }

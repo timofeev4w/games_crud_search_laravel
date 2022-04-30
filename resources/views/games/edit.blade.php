@@ -16,32 +16,31 @@
               @method('put')
               <div class="form-floating mb-3">
                 <input type="text" class="form-control" name="name" id="name" placeholder="Name" 
-                value="{{ $game->name }}">
+                value="@if(old('name') == null){{ $game->name }}@else{{ old('name') }}@endif">
                 <label for="name">Name</label>
-                {{-- <div class="form-text">Change the name of the game.</div> --}}
               </div>
+
               <div class="form-floating mb-3">
                 <input type="text" class="form-control" name="studio" id="studio" placeholder="Studio"
-                value="{{ $game->studio->name }}">
+                value="@if(old('studio') == null){{ $game->studio->name }}@else{{ old('studio') }}@endif">
                 <label for="studio">Studio</label>
               </div>
+
               <div class="mb-2 add-genre">
                 <label class="form-label fw-bold">Genres</label>
-                {{-- <input type="text" class="form-control mb-1" name="genre[0]" placeholder="Add genre"
-                value="{{ old('genre.0') }}"> --}}
-
-                {{-- @if (old('genre') != null) --}}
-              @foreach($game->genres as $genre)
-                  <input type="text" class="form-control mb-1" name="genre[{{ $loop->index }}]" 
-                  {{-- id="genre{{ $loop->index }}" --}}
-                  placeholder="Genre"
-                  value="{{ $genre->name }}">
-                  {{-- {{ $last_index = $loop->index }} --}}
-                {{-- <label for="genre{{ $loop->index }}">Genre</label> --}}
-              @endforeach
-                {{-- @else --}}
-                  {{-- <input type="text" class="form-control mb-1" name="genre[0]" placeholder="Add genre"> --}}
-                {{-- @endif --}}
+                @if (old('genre') == null)
+                  @foreach($game->genres as $genre)
+                      <input type="text" class="form-control mb-1" name="genre[{{ $loop->index }}]" 
+                      placeholder="Genre"
+                      value="{{ $genre->name }}">
+                  @endforeach
+                @else
+                  @foreach(old('genre') as $genre)
+                    <input type="text" class="form-control mb-1" name="genre[{{ $loop->index }}]" 
+                    placeholder="Genre"
+                    value="{{ $genre }}">
+                  @endforeach
+                @endif
               </div>
 
 

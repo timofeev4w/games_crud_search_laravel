@@ -23,44 +23,53 @@
                 </form>
             </div>
         </div>
+
+        @if($games != null)
+            <div class="row">
+                <table class="table table-striped">
+                    <thead>
+                        <th scope="col">Title</th>
+                        <th scope="col">Studio</th>
+                        <th scope="col">Genres</th>
+                    </thead>
+                    <tbody>
+                        @forelse ($games as $game)
+                            <tr>
+                                <td class="text-decoration-underline">
+                                    {{ $game->name }}
+                                </td>
+                                <td>
+                                    {{ $game->studio->name }}
+                                    
+                                </td>
+                                <td>
+                                    @forelse ($game->genres as $genre)
+                                        {{ $genre->name }}<br>
+                                    @empty
+                                        No genre
+                                    @endforelse
+                                </td>
+                                <td>
+                                    <a href="/games/{{ $game->id }}/edit" class="btn btn-success btn-sm mb-1">Update</a><br>
+                                    <form action="/games/{{ $game->id }}" method="POST">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        @else
         <div class="row">
-            <table class="table table-striped">
-                <thead>
-                    <th scope="col">Title</th>
-                    <th scope="col">Studio</th>
-                    <th scope="col">Genres</th>
-                </thead>
-                <tbody>
-                    @forelse ($games as $game)
-                        <tr>
-                            <td class="text-decoration-underline">
-                                {{ $game->name }}
-                            </td>
-                            <td>
-                                {{ $game->studio->name }}
-                                
-                            </td>
-                            <td>
-                                @forelse ($game->genres as $genre)
-                                    {{ $genre->name }}<br>
-                                @empty
-                                    No genre
-                                @endforelse
-                            </td>
-                            <td>
-                                <a href="/games/{{ $game->id }}/edit" class="btn btn-success btn-sm mb-1">Update</a><br>
-                                <form action="/games/{{ $game->id }}" method="POST">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @empty
-                        
-                    @endforelse
-                </tbody>
-            </table>
+            <div class="d-flex justify-content-center">
+                <h1>No games with this genre!</h1>
+            </div>
         </div>
+        @endisset
     </div>
 @endsection

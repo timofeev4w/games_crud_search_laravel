@@ -18,12 +18,22 @@
                 <input type="text" class="form-control" name="name" id="name" placeholder="Name" 
                 value="@if(old('name') == null){{ $game->name }}@else{{ old('name') }}@endif">
                 <label for="name">Name</label>
+                <div class="text-danger">
+                  @error('name')
+                    {{ $message }}
+                  @enderror
+                </div>
               </div>
 
               <div class="form-floating mb-3">
                 <input type="text" class="form-control" name="studio" id="studio" placeholder="Studio"
                 value="@if(old('studio') == null){{ $game->studio->name }}@else{{ old('studio') }}@endif">
                 <label for="studio">Studio</label>
+                <div class="text-danger">
+                  @error('studio')
+                    {{ $message }}
+                  @enderror
+                </div>
               </div>
 
               <div class="mb-2 add-genre">
@@ -41,6 +51,11 @@
                     value="{{ $genre }}">
                   @endforeach
                 @endif
+                <div class="text-danger">
+                  @error('genre.0')
+                    {{ $message }}
+                  @enderror
+                </div>
               </div>
 
 
@@ -50,19 +65,6 @@
               <button type="submit" class="btn btn-primary">Update Game</button>
             </form>
         </div>
-    </div>
-    <div class="row">
-      <div class="d-flex justify-content-center">
-
-        @if ($errors->any())
-          <ul>
-            @foreach ($errors->all() as $error)
-              <li class="text-danger">{{ $error }}</li>
-            @endforeach
-          </ul>
-        @endif
-
-      </div>
     </div>
 </div>
 @endsection

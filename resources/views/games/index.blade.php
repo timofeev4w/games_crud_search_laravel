@@ -49,14 +49,11 @@
                             </td>
                             <td>
                                 <a href="/games/{{ $game->id }}/edit" class="btn btn-success btn-sm mb-1">Update</a><br>
-                                {{-- <a href="games/{{ $game->id }}" class="text-danger">Delete</a> --}}
                                 <form action="/games/{{ $game->id }}" method="POST">
                                     @csrf
                                     @method('delete')
                                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                 </form>
-                                {{-- <a class="btn btn-success" href="/create" role="button">Изменить</a><br>
-                                <a class="btn btn-danger" href="/create" role="button">Удалить</a> --}}
                             </td>
                         </tr>
                     @empty

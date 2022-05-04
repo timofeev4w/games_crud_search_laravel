@@ -14,6 +14,8 @@ use App\Http\Controllers\GamesController;
 |
 */
 
+Route::redirect('/', '/games');
+
 Route::resource('/games', GamesController::class);
 Route::post('/games/s/', [GamesController::class, 'searchRedirect']);
 Route::get('/games/search/{genre_name}', [GamesController::class, 'search']);
